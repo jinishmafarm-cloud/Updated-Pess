@@ -1,34 +1,812 @@
-<select id="adminFixture">
-    <option value="">Select Match</option>
-</select>
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
 
-<input
-    type="number"
-    id="homeScore"
-    min="0"
-    placeholder="Home Score"
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Sunday Super League - Season 2
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+</head>
+
+<body>
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="top-header">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            ⚽
+        </div>
+
+        <div>
+            <h1>
+                Sunday Super League
+            </h1>
+
+            <p>
+                Season 2 · PES Tournament
+            </p>
+        </div>
+
+    </div>
+
+    <button
+        class="admin-open"
+        onclick="openAdmin()"
+    >
+        ⚙ Admin
+    </button>
+
+</header>
+
+
+<!-- =====================================================
+     NAVIGATION
+===================================================== -->
+
+<nav class="navigation">
+
+    <button
+        class="nav-btn active"
+        data-view="dashboard"
+    >
+        Dashboard
+    </button>
+
+    <button
+        class="nav-btn"
+        data-view="league"
+    >
+        League Table
+    </button>
+
+    <button
+        class="nav-btn"
+        data-view="matches"
+    >
+        Matches
+    </button>
+
+    <button
+        class="nav-btn"
+        data-view="fixtures"
+    >
+        Fixtures
+    </button>
+
+    <button
+        class="nav-btn"
+        data-view="statistics"
+    >
+        Statistics
+    </button>
+
+    <button
+        class="nav-btn"
+        data-view="teams"
+    >
+        Teams
+    </button>
+
+    <button
+        class="nav-btn"
+        data-view="inter"
+    >
+        Inter Face
+    </button>
+
+    <button
+        class="nav-btn"
+        data-view="champions"
+    >
+        Champions
+    </button>
+
+</nav>
+
+
+<main>
+
+
+<!-- =====================================================
+     DASHBOARD
+===================================================== -->
+
+<section
+    id="dashboardView"
+    class="view active-view"
 >
 
-<input
-    type="number"
-    id="awayScore"
-    min="0"
-    placeholder="Away Score"
+    <div class="page-title">
+
+        <h2>
+            Season 2 Dashboard
+        </h2>
+
+        <p>
+            Sunday Super League
+        </p>
+
+    </div>
+
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+
+            <span>
+                Completed Matches
+            </span>
+
+            <strong id="completedMatches">
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <span>
+                Total Matches
+            </span>
+
+            <strong id="totalMatches">
+                110
+            </strong>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <span>
+                Total Goals
+            </span>
+
+            <strong id="totalGoals">
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <span>
+                Completion
+            </span>
+
+            <strong id="completionPercent">
+                0%
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="dashboard-grid">
+
+        <div class="panel">
+
+            <h3>
+                Current Leader
+            </h3>
+
+            <div id="topTeam">
+                No results yet
+            </div>
+
+        </div>
+
+
+        <div class="panel">
+
+            <h3>
+                Latest Result
+            </h3>
+
+            <div id="latestResult">
+                No completed matches
+            </div>
+
+        </div>
+
+
+        <div class="panel">
+
+            <h3>
+                Next Match
+            </h3>
+
+            <div id="nextMatch">
+                Loading...
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="panel">
+
+        <h3>
+            Tournament Progress
+        </h3>
+
+        <div class="progress-bar">
+
+            <div
+                id="progress"
+                class="progress"
+                style="width:0%"
+            ></div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     LEAGUE TABLE
+===================================================== -->
+
+<section
+    id="leagueView"
+    class="view"
 >
 
-<input
-    type="date"
-    id="matchDate"
+    <div class="page-title">
+
+        <h2>
+            League Table
+        </h2>
+
+        <p>
+            Season 2 standings
+        </p>
+
+    </div>
+
+
+    <div class="table-wrapper">
+
+        <table id="leagueTable">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        #
+                    </th>
+
+                    <th>
+                        Team / Player
+                    </th>
+
+                    <th>
+                        MP
+                    </th>
+
+                    <th>
+                        W
+                    </th>
+
+                    <th>
+                        D
+                    </th>
+
+                    <th>
+                        L
+                    </th>
+
+                    <th>
+                        GF
+                    </th>
+
+                    <th>
+                        GA
+                    </th>
+
+                    <th>
+                        GD
+                    </th>
+
+                    <th>
+                        PTS
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="leagueTableBody">
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     MATCHES
+===================================================== -->
+
+<section
+    id="matchesView"
+    class="view"
 >
 
-<button onclick="saveResult()">
-    Save Result
-</button>
+    <div class="page-title">
 
-<button onclick="deleteResult()">
-    Delete Result
-</button>
+        <h2>
+            Match Center
+        </h2>
 
-<button onclick="resetTournament()">
-    Reset Tournament
-</button>
+        <p>
+            Results and upcoming matches
+        </p>
+
+    </div>
+
+
+    <div class="filter-buttons">
+
+        <button
+            class="filter-btn active"
+            data-filter="all"
+        >
+            All
+        </button>
+
+        <button
+            class="filter-btn"
+            data-filter="completed"
+        >
+            Completed
+        </button>
+
+        <button
+            class="filter-btn"
+            data-filter="upcoming"
+        >
+            Upcoming
+        </button>
+
+    </div>
+
+
+    <div id="matchesList">
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     FIXTURES
+===================================================== -->
+
+<section
+    id="fixturesView"
+    class="view"
+>
+
+    <div class="page-title">
+
+        <h2>
+            Fixtures
+        </h2>
+
+        <p>
+            110 scheduled matches
+        </p>
+
+    </div>
+
+
+    <div class="round-buttons">
+
+        <button
+            class="round-btn active"
+            data-round="all"
+        >
+            All Rounds
+        </button>
+
+        <div id="roundButtons">
+        </div>
+
+    </div>
+
+
+    <div id="fixturesList">
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     STATISTICS
+===================================================== -->
+
+<section
+    id="statisticsView"
+    class="view"
+>
+
+    <div class="page-title">
+
+        <h2>
+            Statistics
+        </h2>
+
+        <p>
+            Tournament performance
+        </p>
+
+    </div>
+
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+
+            <span>
+                Most Goals
+            </span>
+
+            <strong id="mostGoals">
+                -
+            </strong>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <span>
+                Most Conceded
+            </span>
+
+            <strong id="mostConceded">
+                -
+            </strong>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <span>
+                Best Defence
+            </span>
+
+            <strong id="leastConceded">
+                -
+            </strong>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <span>
+                Best Goal Difference
+            </span>
+
+            <strong id="bestGD">
+                -
+            </strong>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     TEAMS
+===================================================== -->
+
+<section
+    id="teamsView"
+    class="view"
+>
+
+    <div class="page-title">
+
+        <h2>
+            Teams
+        </h2>
+
+        <p>
+            Season 2 participants
+        </p>
+
+    </div>
+
+
+    <div
+        id="teamsList"
+        class="teams-grid"
+    >
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     INTER FACE
+===================================================== -->
+
+<section
+    id="interView"
+    class="view"
+>
+
+    <div class="page-title">
+
+        <h2>
+            Inter Face
+        </h2>
+
+        <p>
+            Inter Milan match profile
+        </p>
+
+    </div>
+
+
+    <div class="inter-profile">
+
+        <img
+            src="https://a.espncdn.com/i/teamlogos/soccer/500/110.png"
+            alt="Inter Milan"
+        >
+
+        <h2>
+            Inter Milan
+        </h2>
+
+        <p>
+            Player: THALA
+        </p>
+
+    </div>
+
+
+    <div
+        id="interFixtures"
+        class="fixtures-container"
+    >
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     CHAMPIONS
+===================================================== -->
+
+<section
+    id="championsView"
+    class="view"
+>
+
+    <div class="page-title">
+
+        <h2>
+            Champions
+        </h2>
+
+        <p>
+            Season 2 Champion
+        </p>
+
+    </div>
+
+
+    <div
+        id="champion"
+        class="champion-container"
+    >
+    </div>
+
+</section>
+
+
+</main>
+
+
+<!-- =====================================================
+     ADMIN MODAL
+===================================================== -->
+
+<div
+    id="adminModal"
+    class="modal"
+>
+
+    <div class="modal-content">
+
+        <button
+            class="modal-close"
+            onclick="closeAdmin()"
+        >
+            ×
+        </button>
+
+
+        <div id="adminLogin">
+
+            <h2>
+                Admin Access
+            </h2>
+
+            <p>
+                Enter administrator PIN
+            </p>
+
+
+            <input
+                type="password"
+                id="adminPin"
+                placeholder="Enter PIN"
+                maxlength="20"
+            >
+
+
+            <button
+                class="primary-btn"
+                onclick="unlockAdmin()"
+            >
+                Unlock
+            </button>
+
+
+            <p
+                id="adminError"
+                class="error-message"
+            ></p>
+
+        </div>
+
+
+        <div
+            id="adminPanel"
+            style="display:none"
+        >
+
+            <h2>
+                Tournament Administration
+            </h2>
+
+
+            <label>
+                Select Match
+            </label>
+
+            <select id="adminFixture">
+                <option value="">
+                    Select Match
+                </option>
+            </select>
+
+
+            <div class="score-inputs">
+
+                <div>
+
+                    <label>
+                        Home Score
+                    </label>
+
+                    <input
+                        type="number"
+                        id="homeScore"
+                        min="0"
+                        max="99"
+                        placeholder="0"
+                    >
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Away Score
+                    </label>
+
+                    <input
+                        type="number"
+                        id="awayScore"
+                        min="0"
+                        max="99"
+                        placeholder="0"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <label>
+                Match Date
+            </label>
+
+            <input
+                type="date"
+                id="matchDate"
+            >
+
+
+            <div class="admin-actions">
+
+                <button
+                    class="primary-btn"
+                    onclick="saveResult()"
+                >
+                    Save Result
+                </button>
+
+
+                <button
+                    class="danger-btn"
+                    onclick="deleteResult()"
+                >
+                    Delete Result
+                </button>
+
+
+                <button
+                    class="danger-btn"
+                    onclick="resetTournament()"
+                >
+                    Reset Tournament
+                </button>
+
+            </div>
+
+
+            <button
+                class="secondary-btn"
+                onclick="logoutAdmin()"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
+```
